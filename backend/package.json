@@ -1,0 +1,8 @@
+{
+  "name": "QuiSocial",
+  "version": "1.0.0",
+  "description": "Uma simples rede social usando NodeJs, React.js e PostgreSQL",
+  "main": "index.js",
+  "author": "Jardel Goncalves",
+  "license": "MIT"
+}
