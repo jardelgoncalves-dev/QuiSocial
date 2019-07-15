@@ -1,5 +1,7 @@
 import express from 'express'
 
+import datasource from './config/datasource'
+
 class App {
   constructor () {
     this.express = express()
@@ -10,6 +12,7 @@ class App {
 
   config () {
     this.express.set('port', 3000)
+    this.express.datasource = datasource(this.express)
   }
 
   middlewares () {
