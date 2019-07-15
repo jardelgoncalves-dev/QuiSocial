@@ -1,8 +1,21 @@
 {
-  "name": "QuiSocial",
+  "name": "quisocial",
   "version": "1.0.0",
   "description": "Uma simples rede social usando NodeJs, React.js e PostgreSQL",
   "main": "index.js",
   "author": "Jardel Goncalves",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "start": "node .",
+    "dev:babel" :"babel-node .",
+    "dev":"nodemon --exec yarn dev:babel"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "nodemon": "^1.19.1"
+  }
 }
