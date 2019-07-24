@@ -39,7 +39,7 @@ export default class RepositoryBase {
 
   async delete (params) {
     try{
-      const result = this.Model.update({ where: params })
+      const result = this.Model.destroy({ where: params })
       return successResponse(result, HttpStatus.NO_CONTENT)
     } catch (err) {
       return errorResponse('Ocorreu um erro inesperado ao tentar remover os dados!', HttpStatus.UNPROCESSABLE_ENTITY)
