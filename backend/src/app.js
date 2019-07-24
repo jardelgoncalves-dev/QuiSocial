@@ -1,6 +1,7 @@
 import express from 'express'
 
 import datasource from './config/datasource'
+import UsersRoutes from './routes/users'
 
 class App {
   constructor () {
@@ -8,6 +9,7 @@ class App {
 
     this.config()
     this.middlewares()
+    this.routes()
   }
 
   config () {
@@ -19,7 +21,9 @@ class App {
     this.express.use(express.json())
   }
   
-  routes () {}
+  routes () {
+    UsersRoutes(this.express)
+  }
 }
 
 export default new App().express
