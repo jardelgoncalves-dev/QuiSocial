@@ -9,6 +9,12 @@ export default (app) => {
       const result = await _usersController.getAll()
       return res.status(result.status).json(result.data)
     })
+    .post(async (req, res) => {
+      const result = await _usersController.create(req.body)
+      return res.status(result.status).json(result.data)
+    })
+
+
   app.route('/users/:id')
     .get(async (req, res) => {
       const { id } = req.params
