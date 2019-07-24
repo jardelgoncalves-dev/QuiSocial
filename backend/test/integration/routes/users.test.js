@@ -120,4 +120,16 @@ describe('Routes /users', () => {
         })
     })
   })
+
+  describe('Route DELETE /users/:id', () => {
+    it('should delete a user', done => {
+
+      request
+        .delete('/users/1')
+        .end((err, res) => {
+          expect(res.status).to.be.eql(204)
+          done(err)
+        })
+    })
+  })
 })
