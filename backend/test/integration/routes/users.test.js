@@ -40,4 +40,25 @@ describe('Routes /users', () => {
         })
     })
   })
+
+  describe('Route POST /users', () => {
+    it('should create a user', done => {
+      const novoUser = {
+        id: 2,
+        name: 'Novo usuario',
+        email: 'novo@email.com',
+        password: 'novo test'
+      }
+
+      request
+        .post('/users')
+        .send(novoUser)
+        .end((err, res) => {
+          expect(res.body.id).to.be.eql(novoUser.id)
+          expect(res.body.name).to.be.eql(novoUser.name)
+          expect(res.body.email).to.be.eql(novoUser.email)
+          done(err)
+        })
+    })
+  })
 })
