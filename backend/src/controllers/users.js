@@ -25,8 +25,8 @@ export default class UsersController {
     })
 
     if(!_validator.hasError()) {
-      const checkEmail = this.Users.getOne({ email })
-      if (checkEmail.data) {
+      const checkEmail = await this.Users.getOne({ email })
+      if (Object.keys(checkEmail.data).length !== 0) {
         return errorResponse({ email: 'This email already has a registration' })
       }
 
