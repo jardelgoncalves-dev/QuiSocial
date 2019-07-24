@@ -1,41 +1,49 @@
 import HttpStatus from 'http-status'
 import { successResponse, errorResponse } from '../../helpers/response-message'
 
-export class RepositoryBase {
+export default class RepositoryBase {
   constructor (Model) {
     this.Model = Model
   }
 
-  getAll () {
-    return this.Model.findAll()
-      .then(result => successResponse(result))
-      .catch(() => errorResponse('Ocorreu um erro inesperado. Contate o administrador!', HttpStatus.UNPROCESSABLE_ENTITY))
+  async getAll () {
+    const result = await this.Model.findAll()
+    return successResponse(result)
   }
 
-  getOne (params) {
-    return this.Model.findOne({ where: params })
-      .then(result => successResponse(result))
-      .catch(() => errorResponse('Ocorreu um erro inesperado. Contate o administrador!', HttpStatus.UNPROCESSABLE_ENTITY))
+  async getOne (params) {
+    const result = await this.Model.findOne({ where: params })
+    return successResponse(result)
   }
 
-  create (data) {
-    return this.Model.create(data)
-      .then(result => successResponse(result, HttpStatus.CREATED))
-      .catch(() => errorResponse('Ocorreu um erro inesperado. Contate o administrador!', HttpStatus.UNPROCESSABLE_ENTITY))
+  async create (data) {
+    try {
+      const result = await this.Model.create(data)
+      return successResponse(result)
+    } catch (err) {
+      return errorResponse('Ocorreu um erro inesperado ao tentar salvar os dados!', HttpStatus.UNPROCESSABLE_ENTITY)
+    }
   }
 
-  update (params, data) {
-    return this.Model.update(data, { where: params })
-      .then(() => this.Model.findOne({ where: params })
-        .then(result => successResponse(result))
-      )
-      .catch(() => errorResponse('Ocorreu um erro inesperado. Contate o administrador!', HttpStatus.UNPROCESSABLE_ENTITY))
+  async update (params, data) {
+    try {
+      const result = await this.Model.update(data, { where: params })
+      if (!result[0] === 1) {
+        return errorResponse('Ocorreu um erro ao tentar atualizar os dados, verifique as informações e tente novamente!', HttpStatus.BAD_REQUEST)
+      }
+      return await this.Model.findOne(params)
+    } catch (err) {
+      return errorResponse('Ocorreu um erro inesperado ao tentar atualizar os dados!', HttpStatus.UNPROCESSABLE_ENTITY)
+    }
   }
 
-  delete (params) {
-    return this.Model.update({ where: params })
-      .then(result => successResponse(result, HttpStatus.NO_CONTENT))
-      .catch(() => errorResponse('Ocorreu um erro inesperado. Contate o administrador!', HttpStatus.UNPROCESSABLE_ENTITY))
+  async delete (params) {
+    try{
+      const result = this.Model.update({ where: params })
+      return successResponse(result, HttpStatus.NO_CONTENT)
+    } catch (err) {
+      return errorResponse('Ocorreu um erro inesperado ao tentar remover os dados!', HttpStatus.UNPROCESSABLE_ENTITY)
+    }
   }
 
 }
