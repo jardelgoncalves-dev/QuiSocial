@@ -27,4 +27,17 @@ describe('Routes /users', () => {
         })
     })
   })
+
+  describe('Route GET /users/:id', () => {
+    it('should return a user', done => {
+      request
+        .get('/users/1')
+        .end((err, res) => {
+          expect(res.body.id).to.be.eql(userDefault.id)
+          expect(res.body.name).to.be.eql(userDefault.name)
+          expect(res.body.email).to.be.eql(userDefault.email)
+          done(err)
+        })
+    })
+  })
 })
