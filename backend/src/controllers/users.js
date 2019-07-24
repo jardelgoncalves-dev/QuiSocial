@@ -24,20 +24,15 @@ export default class UsersController {
       'email.email': email
     })
 
-    const checkEmail = this.Users.getOne({ email })
-    if (await checkEmail.data) {
-      if (Array.isArray(_validator.errors.email)) {
-        _validator.errors.email.push('This email already has a registration')
-      } else {
-        _validator.errors.email = ['This email already has a registration']
+    if(!_validator.hasError()) {
+      const checkEmail = this.Users.getOne({ email })
+      if (checkEmail.data) {
+        return errorResponse({ email: 'This email already has a registration' })
       }
-    }
 
-    if(_validator.hasError()) {
-      return errorResponse(_validator.errors)
+      return this.Users.create(data)
     }
-
-    return this.Users.create(data)
+    return errorResponse(_validator.errors)
   }
 
   update (params, data) {
