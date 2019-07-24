@@ -24,12 +24,12 @@ export default class UsersController {
       'email.email': email
     })
 
-    const checkEmail = await this.Users.getOne({ email })
-    if (checkEmail) {
+    const checkEmail = this.Users.getOne({ email })
+    if (await checkEmail.data) {
       if (Array.isArray(_validator.errors.email)) {
-        _validators.errors.email.push('This email already has a registration')
+        _validator.errors.email.push('This email already has a registration')
       } else {
-        _validators.errors.email = ['This email already has a registration']
+        _validator.errors.email = ['This email already has a registration']
       }
     }
 
