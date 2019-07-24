@@ -31,7 +31,7 @@ export default class RepositoryBase {
       if (!updated[0] === 1) {
         return errorResponse('Ocorreu um erro ao tentar atualizar os dados, verifique as informações e tente novamente!', HttpStatus.BAD_REQUEST)
       }
-      const result = await this.Model.findOne(params)
+      const result = await this.Model.findOne({ where: params })
       return successResponse(result)
     } catch (err) {
       return errorResponse('Ocorreu um erro inesperado ao tentar atualizar os dados!', HttpStatus.UNPROCESSABLE_ENTITY)
