@@ -2,6 +2,11 @@ import express from 'express'
 
 import datasource from './config/datasource'
 import UsersRoutes from './routes/users'
+import dotenv from 'dotenv'
+
+dotenv.config({
+  path: process.env.NODE_ENV !== 'test' ? '.env' : '.env.test'
+})
 
 class App {
   constructor () {
