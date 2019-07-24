@@ -1,7 +1,7 @@
 import validator from 'validator'
 
 export default class Validators {
-  constructor (data = {}, message = {}) {
+  constructor (data = {}, messages = {}) {
     this.errors = {}
     this._run(data, messages)
   }
