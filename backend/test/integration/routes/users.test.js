@@ -80,6 +80,25 @@ describe('Routes /users', () => {
     })
   })
 
+  describe('Route POST /users', () => {
+    it('should return an error that email already has a record', done => {
+      const novoUser = {
+        id: 2,
+        name: 'Novo usuario ',
+        email: 'fulano@gmail.com',
+        password: 'test fail'
+      }
+
+      request
+        .post('/users')
+        .send(novoUser)
+        .end((err, res) => {
+          expect(res.body.error).to.have.a.property('email')
+          done(err)
+        })
+    })
+  })
+
   describe('Route PUT /users/:id', () => {
     it('should update a user', done => {
       const updateUser = {
