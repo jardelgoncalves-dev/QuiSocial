@@ -26,4 +26,9 @@ export default (app) => {
       const result = await _usersController.update({ id }, req.body)
       return res.status(result.status).json(result.data)
     })
+    .delete(async (req, res) => {
+      const { id } = req.params
+      const result = await _usersController.delete({ id })
+      return res.status(result.status).send()
+    })
 }
