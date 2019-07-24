@@ -1,10 +1,17 @@
+import dotenv from 'dotenv'
+
+dotenv.config({
+  path: process.env.NODE_ENV !== 'test' ? '.env' : '.env.test'
+})
+
 export default {
-  database: 'db_quisocial',
-  username: 'postgres',
-  password: 'postgres',
+  database: process.env.DB_NAME,
+  username: process.env.DB_USER,
+  password: process.env.DB_PASS,
   params: {
-    host: 'localhost',
-    dialect: 'postgres',
+    storage: 'db_test.sqlite',
+    host: process.env.DB_HOST,
+    dialect: process.env.DIALECT || 'postgres',
     logging: false,
     define: {
       underscored: true
