@@ -27,11 +27,12 @@ export default class RepositoryBase {
 
   async update (params, data) {
     try {
-      const result = await this.Model.update(data, { where: params })
-      if (!result[0] === 1) {
+      const updated = await this.Model.update(data, { where: params })
+      if (!updated[0] === 1) {
         return errorResponse('Ocorreu um erro ao tentar atualizar os dados, verifique as informações e tente novamente!', HttpStatus.BAD_REQUEST)
       }
-      return await this.Model.findOne(params)
+      const result = await this.Model.findOne(params)
+      return successResponse(result)
     } catch (err) {
       return errorResponse('Ocorreu um erro inesperado ao tentar atualizar os dados!', HttpStatus.UNPROCESSABLE_ENTITY)
     }
