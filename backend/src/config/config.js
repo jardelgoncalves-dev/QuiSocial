@@ -11,7 +11,7 @@ export default {
   params: {
     storage: 'db_test.sqlite',
     host: process.env.DB_HOST,
-    dialect: process.env.DIALECT || 'postgres',
+    dialect: process.env.DB_DIALECT || 'postgres',
     logging: false,
     define: {
       underscored: true
