@@ -13,19 +13,19 @@ export default class Validators {
   }
 
   email (variable, key, message) {
-    if (!validator.isEmail(variable)) {
+    if (variable === undefined || !validator.isEmail(variable)) {
       this._pushMessageErrorArray(key, message, 'Email invalid!')
     }
   }
 
   integer (variable, key, message) {
-    if (!validator.isInt(variable)) {
+    if (variable === undefined || !validator.isInt(variable)) {
       this._pushMessageErrorArray(key, message, 'The value you entered is invalid!')
     }
   }
 
   float (variable, key, message) {
-    if (!validator.isFloat(variable)) {
+    if (variable === undefined || !validator.isFloat(variable)) {
       this._pushMessageErrorArray(key, message, 'The value you entered is invalid!')
     }
   }
@@ -37,7 +37,7 @@ export default class Validators {
   }
 
   boolean (variable, key, message) {
-    if (!validator.isBoolean(variable)) {
+    if (variable === undefined || !validator.isBoolean(variable)) {
       this._pushMessageErrorArray(key, message, 'Invalid Boolean value. Enter or true or false for this field!')
     }
   }
