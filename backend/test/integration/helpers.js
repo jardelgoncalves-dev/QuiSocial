@@ -7,5 +7,6 @@ dotenv.config({
   path: process.env.NODE_ENV !== 'test' ? '.env' : '.env.test'
 })
 
+global.app = app
 global.request = supertest(app)
 global.expect = expect
