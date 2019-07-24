@@ -30,24 +30,17 @@ export default (sequelize, DataType) => {
       }
     },
     photoName: {
-      type: DataType.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: true
-      }
+      type: DataType.STRING
     },
     bio: {
-      type: DataType.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: true
-      }
+      type: DataType.STRING
     }
   }, {
     hooks: {
       beforeCreate: user => {
         const salt = bcrypt.genSaltSync()
         user.password = bcrypt.hashSync(user.password, salt)
+        user.photoName = 'user.svg'
       }
     }
   })
