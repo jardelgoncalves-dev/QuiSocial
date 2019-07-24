@@ -62,6 +62,24 @@ describe('Routes /users', () => {
     })
   })
 
+  describe('Route POST /users', () => {
+    it('should return errors stating email and password not entered', done => {
+      const novoUser = {
+        id: 2,
+        name: 'User com erros'
+      }
+
+      request
+        .post('/users')
+        .send(novoUser)
+        .end((err, res) => {
+          expect(res.body.error).to.have.a.property('email')
+          expect(res.body.error).to.have.a.property('password')
+          done(err)
+        })
+    })
+  })
+
   describe('Route PUT /users/:id', () => {
     it('should update a user', done => {
       const updateUser = {
