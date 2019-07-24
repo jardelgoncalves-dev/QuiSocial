@@ -61,4 +61,26 @@ describe('Routes /users', () => {
         })
     })
   })
+
+  describe('Route PUT /users/:id', () => {
+    it('should update a user', done => {
+      const updateUser = {
+        name: 'Update user',
+        photoName: 'updateImage.png',
+        bio: 'Minha bio atualizada'
+      }
+
+      request
+        .put('/users/1')
+        .send(updateUser)
+        .end((err, res) => {
+          expect(res.body.id).to.be.eql(userDefault.id)
+          expect(res.body.name).to.be.eql(updateUser.name)
+          expect(res.body.email).to.be.eql(userDefault.email)
+          expect(res.body.photoName).to.be.eql(updateUser.photoName)
+          expect(res.body.bio).to.be.eql(updateUser.bio)
+          done(err)
+        })
+    })
+  })
 })
