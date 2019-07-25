@@ -34,4 +34,16 @@ describe('Routes /posts', () => {
       })
     })
   })
+
+  describe('Route GET /posts/:id', () => {
+    it('should return a post lists', done => {
+      request
+      .get('/posts/1')
+      .end((err, res) => {
+        expect(res.body.id).to.be.eql(postDefault.id)
+        expect(res.body.content).to.be.eql(postDefault.content)
+        done(err)
+      })
+    })
+  })
 })
