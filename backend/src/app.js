@@ -2,6 +2,7 @@ import express from 'express'
 
 import datasource from './config/datasource'
 import UsersRoutes from './routes/users'
+import PostsRoutes from './routes/posts'
 import dotenv from 'dotenv'
 
 dotenv.config({
@@ -28,6 +29,7 @@ class App {
   
   routes () {
     UsersRoutes(this.express)
+    PostsRoutes(this.express)
   }
 }
 
