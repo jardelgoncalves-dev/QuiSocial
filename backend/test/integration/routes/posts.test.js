@@ -36,12 +36,31 @@ describe('Routes /posts', () => {
   })
 
   describe('Route GET /posts/:id', () => {
-    it('should return a post lists', done => {
+    it('should return a post', done => {
       request
       .get('/posts/1')
       .end((err, res) => {
         expect(res.body.id).to.be.eql(postDefault.id)
         expect(res.body.content).to.be.eql(postDefault.content)
+        done(err)
+      })
+    })
+  })
+
+  describe('Route POST /posts', () => {
+    it('should create a post', done => {
+      const novoPost = {
+        id: 2,
+        userId: userDefault.id,
+        content: 'Novo post'
+      }
+
+      request
+      .post('/posts')
+      .send(novoPost)
+      .end((err, res) => {
+        expect(res.body.id).to.be.eql(novoPost.id)
+        expect(res.body.content).to.be.eql(novoPost.content)
         done(err)
       })
     })
