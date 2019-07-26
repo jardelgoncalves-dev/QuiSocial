@@ -5,22 +5,20 @@ export default (sequelize, DataType) => {
       primaryKey: true,
       autoIncrement: true
     },
-    userId: {
-      type: DataType.INTEGER,
-      references: {
-        model: 'users',
-        key: 'id'
-      },
-      allowNull: false,
-      validate: {
-        notEmpty: true
-      }
-    },
     content: {
       type: DataType.TEXT,
       allowNull: false,
       validate: {
         notEmpty: true
+      }
+    }
+  }, 
+  {
+    underscored: true,
+    classmethod:{
+      associate: function(models){
+        Posts.belongsTo(models.Users, {foreignKey: 'userId', targetKey: 'id'})
+        Posts.hasMany(models.Likes, {foreignKey: 'postId'})
       }
     }
   })
