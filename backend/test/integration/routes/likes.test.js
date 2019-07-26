@@ -61,4 +61,56 @@ describe('Routes /likes', () => {
         })
     })
   })
+
+  describe('Route POST /likes', () => {
+    it('should return code 202 for repeated postId and userId', done => {
+      request
+        .post('/likes')
+        .send({
+          postId: postDefault.id,
+          userId: userDefault.id
+        })
+        .end((err, res) => {
+          expect(res.status).to.be.eql(202)
+          done(err)
+        })
+    })
+  })
+
+  describe('Route POST /likes', () => {
+    it('should return an error, postId is required', done => {
+      request
+        .post('/likes')
+        .send({
+          userId: userDefault.id
+        })
+        .end((err, res) => {
+          expect(res.body.error).to.have.a.property('postId')
+          done(err)
+        })
+    })
+  })
+
+  describe('Route POST /likes', () => {
+    it('should create a like', done => {
+      Users.create({
+        name: 'new name',
+        email: 'name@admin.com',
+        password: '123'
+      })
+        .then(user => {
+          request
+            .post('/likes')
+            .send({
+              postId: postDefault.id,
+              userId: user.id
+            })
+            .end((err, res) => {
+              expect(res.body.userId).to.be.eql(user.id)
+              expect(res.body.postId).to.be.eql(postDefault.id)
+              done(err)
+            })
+        })
+    })
+  })
 })
