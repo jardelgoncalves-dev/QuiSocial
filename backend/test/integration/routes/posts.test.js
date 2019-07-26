@@ -83,4 +83,23 @@ describe('Routes /posts', () => {
       })
     })
   })
+
+  describe('Route PUT /posts/:id', () => {
+    it('should update a post', done => {
+      const updatedPost = {
+        id: postDefault.id,
+        userId: userDefault.id,
+        content: 'Post is updated'
+      }
+
+      request
+      .put('/posts/1')
+      .send(updatedPost)
+      .end((err, res) => {
+        expect(res.body.id).to.be.eql(postDefault.id)
+        expect(res.body.content).to.be.eql(updatedPost.content)
+        done(err)
+      })
+    })
+  })
 })
