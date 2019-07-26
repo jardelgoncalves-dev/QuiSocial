@@ -15,6 +15,10 @@ export default class LikesController {
     return this.Likes.getOne(params)
   }
 
+  getAllByPost (params) {
+    return this.Likes.getAllByParams(params)
+  }
+
   async create (data) {
     const { postId, userId } = data
     const _validators = new Validators({
