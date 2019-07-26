@@ -12,6 +12,7 @@ export default (app) => {
       return res.status(result.status).json(result.data)
     })
     .post(async(req, res) => {
+      req.body.userId = req.userId
       const result = await _likesController.create(req.body)
       return res.status(result.status).json(result.data)
     })
@@ -24,8 +25,9 @@ export default (app) => {
       return res.status(result.status).json(result.data)
     })
     .delete(async(req, res) => {
+      const userId = req.userId
       const { id } = req.params
-      const result = await _likesController.delete({ id })
+      const result = await _likesController.delete({ id, userId })
       return res.status(result.status).send()
     })
 
