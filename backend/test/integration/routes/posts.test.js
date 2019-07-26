@@ -124,4 +124,16 @@ describe('Routes /posts', () => {
       })
     })
   })
+
+  describe('Route GET /posts/user/:id', () => {
+    it('should return a post lists with an like lists', done => {
+      request
+      .get('/posts/user/1')
+      .set('authorization', `Bearer ${token}`)
+      .end((err, res) => {
+        expect(res.body[0]).to.have.a.property('Likes')
+        done(err)
+      })
+    })
+  })
 })
