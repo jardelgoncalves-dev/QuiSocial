@@ -16,6 +16,7 @@ export default (app) => {
       return res.status(result.status).json(result.data)
     })
     .post(async (req, res) => {
+      req.body.userId = req.userId
       const result = await _postsController.create(req.body)
       return res.status(result.status).json(result.data)
     })
@@ -30,12 +31,12 @@ export default (app) => {
     .put(async (req, res) => {
       const { id } = req.params
       const { content } = req.body
-      const result = await _postsController.update({ id }, { content })
+      const result = await _postsController.update({ id, userId: req.userId }, { content })
       return res.status(result.status).json(result.data)
     })
     .delete(async (req, res) => {
       const { id } = req.params
-      const result = await _postsController.delete({ id })
+      const result = await _postsController.delete({ id, userId: req.userId  })
       return res.status(result.status).send()
     })
   
