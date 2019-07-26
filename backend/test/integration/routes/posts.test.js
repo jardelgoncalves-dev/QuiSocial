@@ -65,4 +65,22 @@ describe('Routes /posts', () => {
       })
     })
   })
+
+  describe('Route POST /posts', () => {
+    it('should return an error because content is required', done => {
+      const novoPost = {
+        id: 2,
+        userId: userDefault.id
+      }
+
+      request
+      .post('/posts')
+      .send(novoPost)
+      .end((err, res) => {
+        expect(res.body.error).to.have.a.property('content')
+        expect(res.status).to.be.eql(400)
+        done(err)
+      })
+    })
+  })
 })
