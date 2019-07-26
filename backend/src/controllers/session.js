@@ -22,13 +22,13 @@ export default class SessionController {
 
     const res = await this.Users.getOne({ email })
     if (Object.keys(res.data).length === 0) {
-      return errorResponse({ message: 'User not found!' })
+      return errorResponse({ message: 'User not found!' }, 401)
     }
 
     const user = res.data
 
     if(!(await user.comparePassword(password))) {
-      return errorResponse({ message: 'Email or password invalid!' })
+      return errorResponse({ message: 'Email or password invalid!' }, 401)
     }
 
     const token = jwt.sign(user.id, process.env.APP_SECRET)
