@@ -132,4 +132,16 @@ describe('Routes /likes', () => {
         })
     })
   })
+
+  describe('Route GET /likes/post/:id', () => {
+    it('should return a like list of a post', done => {
+      request
+        .get('/likes/post/1')
+        .set('authorization', `Bearer ${token}`)
+        .end((err, res) => {
+          expect(res.body).to.be.an('array')
+          done(err)
+        })
+    })
+  })
 })
