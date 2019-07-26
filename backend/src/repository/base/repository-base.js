@@ -7,7 +7,7 @@ export default class RepositoryBase {
   }
 
   async getAll (include) {
-    const result = await this.Model.findAll({ include })
+    const result = await this.Model.findAll({order: [['createdAt', 'DESC']], include })
     return successResponse(result)
   }
 
