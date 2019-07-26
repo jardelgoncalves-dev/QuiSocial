@@ -1,6 +1,7 @@
 describe('Routes /users', () => {
   const Users = app.datasource.models.Users
   const Posts = app.datasource.models.Posts
+  const Likes = app.datasource.models.Likes
   const userDefault = {
     id: 1,
     name: 'Fulano de Tal',
@@ -9,12 +10,13 @@ describe('Routes /users', () => {
   }
 
   beforeEach(done => {
-    Posts.destroy({ where: {} })
-      .then(() => Users.destroy({ where: {} })
-        .then(() => Users.create(userDefault)
-          .then(() => {
-            done()
-          })))
+    Likes.destroy({ where: {} })
+      .then(() => Posts.destroy({ where: {} })
+        .then(() => Users.destroy({ where: {} })
+          .then(() => Users.create(userDefault)
+            .then(() => {
+              done()
+            }))))
   })
 
   describe('Route GET /users', () => {

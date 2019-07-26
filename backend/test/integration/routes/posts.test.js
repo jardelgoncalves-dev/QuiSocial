@@ -1,6 +1,7 @@
 describe('Routes /posts', () => {
   const Posts = app.datasource.models.Posts
   const Users = app.datasource.models.Users
+  const Likes = app.datasource.models.Likes
   const userDefault = {
     id: 1,
     name: 'Jardel',
@@ -16,13 +17,14 @@ describe('Routes /posts', () => {
   let token = jwt.sign(userDefault.id, APP_SECRET)
 
   beforeEach(done => {
-    Posts.destroy({ where: {} })
-      .then(() => Users.destroy({ where: {} })
-        .then(() => Users.create(userDefault)
-          .then(() => Posts.create(postDefault)
-            .then(() => {
-              done()
-            }))))
+    Likes.destroy({ where: {} })
+      .then(() => Posts.destroy({ where: {} })
+        .then(() => Users.destroy({ where: {} })
+          .then(() => Users.create(userDefault)
+            .then(() => Posts.create(postDefault)
+              .then(() => {
+                done()
+              })))))
   })
 
   describe('Route GET /posts', () => {
