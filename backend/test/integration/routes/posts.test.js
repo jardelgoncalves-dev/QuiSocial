@@ -10,7 +10,6 @@ describe('Routes /posts', () => {
   } 
   const postDefault = {
     id: 1,
-    userId: 1,
     content: 'Esse é um post default'
   }
 
@@ -21,7 +20,11 @@ describe('Routes /posts', () => {
       .then(() => Posts.destroy({ where: {} })
         .then(() => Users.destroy({ where: {} })
           .then(() => Users.create(userDefault)
-            .then(() => Posts.create(postDefault)
+            .then(() => Posts.create({
+              id: 1,
+              userId: 1,
+              content: 'Esse é um post default'
+            })
               .then(() => {
                 done()
               })))))
@@ -57,7 +60,6 @@ describe('Routes /posts', () => {
     it('should create a post', done => {
       const novoPost = {
         id: 2,
-        userId: userDefault.id,
         content: 'Novo post'
       }
 
@@ -76,8 +78,7 @@ describe('Routes /posts', () => {
   describe('Route POST /posts', () => {
     it('should return an error because content is required', done => {
       const novoPost = {
-        id: 2,
-        userId: userDefault.id
+        id: 2
       }
 
       request
@@ -96,7 +97,6 @@ describe('Routes /posts', () => {
     it('should update a post', done => {
       const updatedPost = {
         id: postDefault.id,
-        userId: userDefault.id,
         content: 'Post is updated'
       }
 
