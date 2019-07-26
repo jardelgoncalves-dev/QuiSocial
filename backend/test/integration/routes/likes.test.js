@@ -23,6 +23,8 @@ describe('Routes /likes', () => {
     userId: userDefault.id,
     postId: postDefault.id
   }
+
+  let token = jwt.sign(userDefault.id, APP_SECRET)
   
   beforeEach(done => {
     Likes.destroy({ where: {} })
@@ -40,6 +42,7 @@ describe('Routes /likes', () => {
     it('should return a like list', done => {
       request
         .get('/likes')
+        .set('authorization', `Bearer ${token}`)
         .end((err, res) => {
           expect(res.body[0].id).to.be.eql(likeDefault.id)
           expect(res.body[0].userId).to.be.eql(userDefault.id)
@@ -53,6 +56,7 @@ describe('Routes /likes', () => {
     it('should return a like', done => {
       request
         .get('/likes/1')
+        .set('authorization', `Bearer ${token}`)
         .end((err, res) => {
           expect(res.body.id).to.be.eql(likeDefault.id)
           expect(res.body.userId).to.be.eql(userDefault.id)
@@ -66,6 +70,7 @@ describe('Routes /likes', () => {
     it('should return code 202 for repeated postId and userId', done => {
       request
         .post('/likes')
+        .set('authorization', `Bearer ${token}`)
         .send({
           postId: postDefault.id,
           userId: userDefault.id
@@ -84,6 +89,7 @@ describe('Routes /likes', () => {
         .send({
           userId: userDefault.id
         })
+        .set('authorization', `Bearer ${token}`)
         .end((err, res) => {
           expect(res.body.error).to.have.a.property('postId')
           done(err)
@@ -101,6 +107,7 @@ describe('Routes /likes', () => {
         .then(user => {
           request
             .post('/likes')
+            .set('authorization', `Bearer ${token}`)
             .send({
               postId: postDefault.id,
               userId: user.id
@@ -118,6 +125,7 @@ describe('Routes /likes', () => {
     it('should delete a like', done => {
       request
         .delete('/likes/1')
+        .set('authorization', `Bearer ${token}`)
         .end((err, res) => {
           expect(res.status).to.be.eql(204)
           done(err)
