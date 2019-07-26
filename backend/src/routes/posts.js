@@ -20,4 +20,10 @@ export default (app) => {
       const result = await _postsController.getOne({ id })
       return res.status(result.status).json(result.data)
     })
+    .put(async (req, res) => {
+      const { id } = req.params
+      const { content } = req.body
+      const result = await _postsController.update({ id }, { content })
+      return res.status(result.status).json(result.data)
+    })
 }
