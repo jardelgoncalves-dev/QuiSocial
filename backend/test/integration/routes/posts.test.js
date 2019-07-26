@@ -13,6 +13,8 @@ describe('Routes /posts', () => {
     content: 'Esse é um post default'
   }
 
+  let token = jwt.sign(userDefault.id, APP_SECRET)
+
   beforeEach(done => {
     Posts.destroy({ where: {} })
       .then(() => Users.destroy({ where: {} })
@@ -27,6 +29,7 @@ describe('Routes /posts', () => {
     it('should return a post lists', done => {
       request
       .get('/posts')
+      .set('authorization', `Bearer ${token}`)
       .end((err, res) => {
         expect(res.body[0].id).to.be.eql(postDefault.id)
         expect(res.body[0].content).to.be.eql(postDefault.content)
@@ -39,6 +42,7 @@ describe('Routes /posts', () => {
     it('should return a post', done => {
       request
       .get('/posts/1')
+      .set('authorization', `Bearer ${token}`)
       .end((err, res) => {
         expect(res.body.id).to.be.eql(postDefault.id)
         expect(res.body.content).to.be.eql(postDefault.content)
@@ -57,6 +61,7 @@ describe('Routes /posts', () => {
 
       request
       .post('/posts')
+      .set('authorization', `Bearer ${token}`)
       .send(novoPost)
       .end((err, res) => {
         expect(res.body.id).to.be.eql(novoPost.id)
@@ -75,6 +80,7 @@ describe('Routes /posts', () => {
 
       request
       .post('/posts')
+      .set('authorization', `Bearer ${token}`)
       .send(novoPost)
       .end((err, res) => {
         expect(res.body.error).to.have.a.property('content')
@@ -94,6 +100,7 @@ describe('Routes /posts', () => {
 
       request
       .put('/posts/1')
+      .set('authorization', `Bearer ${token}`)
       .send(updatedPost)
       .end((err, res) => {
         expect(res.body.id).to.be.eql(postDefault.id)
@@ -108,6 +115,7 @@ describe('Routes /posts', () => {
 
       request
       .delete('/posts/1')
+      .set('authorization', `Bearer ${token}`)
       .end((err, res) => {
         expect(res.status).to.be.eql(204)
         done(err)
