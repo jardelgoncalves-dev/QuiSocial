@@ -102,4 +102,16 @@ describe('Routes /posts', () => {
       })
     })
   })
+
+  describe('Route DELETE /posts/:id', () => {
+    it('should delete a post', done => {
+
+      request
+      .delete('/posts/1')
+      .end((err, res) => {
+        expect(res.status).to.be.eql(204)
+        done(err)
+      })
+    })
+  })
 })
