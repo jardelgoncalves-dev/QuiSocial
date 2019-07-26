@@ -113,4 +113,15 @@ describe('Routes /likes', () => {
         })
     })
   })
+
+  describe('Route DELETE /likes/:id', () => {
+    it('should delete a like', done => {
+      request
+        .delete('/likes/1')
+        .end((err, res) => {
+          expect(res.status).to.be.eql(204)
+          done(err)
+        })
+    })
+  })
 })
