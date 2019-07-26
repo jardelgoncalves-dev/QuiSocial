@@ -7,8 +7,12 @@ export default class PostsController {
     this.Posts = new Base(Model)
   }
 
-  getAll () {
-    return this.Posts.getAll()
+  getAll (include) {
+    return this.Posts.getAll(include)
+  }
+
+  getAllByUser (params, include) {
+    return this.Posts.getAllByParams(params, include)
   }
 
   getOne (params) {
