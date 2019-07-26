@@ -20,4 +20,9 @@ export default (app) => {
       const result = await _likesController.getOne({ id })
       return res.status(result.status).json(result.data)
     })
+    .delete(async(req, res) => {
+      const { id } = req.params
+      const result = await _likesController.delete({ id })
+      return res.status(result.status).send()
+    })
 }
