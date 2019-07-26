@@ -1,10 +1,12 @@
 import PostsController from '../controllers/posts'
+import authMiddleware from '../middleware/auth'
 
 export default (app) => {
   const Posts = app.datasource.models.Posts
   const _postsController = new PostsController(Posts)
 
   app.route('/posts')
+    .all(authMiddleware)
     .get(async (req, res) => {
       const result = await _postsController.getAll()
       return res.status(result.status).json(result.data)
@@ -15,6 +17,7 @@ export default (app) => {
     })
 
   app.route('/posts/:id')
+    .all(authMiddleware)
     .get(async (req, res) => {
       const { id } = req.params
       const result = await _postsController.getOne({ id })
