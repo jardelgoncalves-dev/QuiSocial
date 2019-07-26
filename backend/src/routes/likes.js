@@ -9,6 +9,10 @@ export default (app) => {
       const result = await _likesController.getAll()
       return res.status(result.status).json(result.data)
     })
+    .post(async(req, res) => {
+      const result = await _likesController.create(req.body)
+      return res.status(result.status).json(result.data)
+    })
 
   app.route('/likes/:id')
     .get(async(req, res) => {
