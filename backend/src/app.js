@@ -4,6 +4,7 @@ import datasource from './config/datasource'
 import UsersRoutes from './routes/users'
 import PostsRoutes from './routes/posts'
 import SessionRoutes from './routes/session'
+import LikesRoutes from './routes/likes'
 import dotenv from 'dotenv'
 
 dotenv.config({
@@ -32,6 +33,7 @@ class App {
     UsersRoutes(this.express)
     PostsRoutes(this.express)
     SessionRoutes(this.express)
+    LikesRoutes(this.express)
   }
 }
 
