@@ -7,7 +7,7 @@ export default class Validators {
   }
 
   required (variable, key, message) {
-    if (variable === undefined || variable === null || validator.isEmpty(variable)) {
+    if (variable === undefined || variable === null || validator.isEmpty(toString(variable))) {
       this._pushMessageErrorArray(key, message, 'This field is required!')
     }
   }
