@@ -12,7 +12,7 @@ export default class LikesController {
   }
 
   getOne (params) {
-    return this.Likes.getOne(param)
+    return this.Likes.getOne(params)
   }
 
   create (data) {
