@@ -20,7 +20,6 @@ describe('Routes /likes', () => {
 
   const likeDefault = {
     id: 1,
-    userId: userDefault.id,
     postId: postDefault.id
   }
 
@@ -32,7 +31,11 @@ describe('Routes /likes', () => {
         .then(() => Users.destroy({ where: {} })
           .then(() => Users.create(userDefault)
             .then(() => Posts.create(postDefault)
-              .then(() => Likes.create(likeDefault)
+              .then(() => Likes.create({
+                id: 1,
+                userId: userDefault.id,
+                postId: postDefault.id
+              })
                 .then(() => {
                   done()
                 }))))))
@@ -105,12 +108,12 @@ describe('Routes /likes', () => {
         password: '123'
       })
         .then(user => {
+          let novoToken = jwt.sign(user.id, APP_SECRET)
           request
             .post('/likes')
-            .set('authorization', `Bearer ${token}`)
+            .set('authorization', `Bearer ${novoToken}`)
             .send({
-              postId: postDefault.id,
-              userId: user.id
+              postId: postDefault.id
             })
             .end((err, res) => {
               expect(res.body.userId).to.be.eql(user.id)
