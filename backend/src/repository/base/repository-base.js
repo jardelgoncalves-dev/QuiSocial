@@ -6,8 +6,13 @@ export default class RepositoryBase {
     this.Model = Model
   }
 
-  async getAll () {
-    const result = await this.Model.findAll()
+  async getAll (include) {
+    const result = await this.Model.findAll({ include })
+    return successResponse(result)
+  }
+
+  async getAllByParams (params, include) {
+    const result = await this.Model.findAll({ where: params, include })
     return successResponse(result)
   }
 
