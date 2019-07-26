@@ -28,4 +28,12 @@ export default (app) => {
       const result = await _likesController.delete({ id })
       return res.status(result.status).send()
     })
+
+  app.route('/likes/post/:id')
+    .all(authMiddleware)
+    .get(async(req, res) => {
+      const { id } = req.params
+      const result = await _likesController.getAllByPost({ postId: id })
+      return res.status(result.status).json(result.data)
+    })
 }
