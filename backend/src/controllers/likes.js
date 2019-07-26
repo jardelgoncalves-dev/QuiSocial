@@ -1,6 +1,6 @@
 import Base from '../repository/base/repository-base'
 import Validators from '../helpers/validators'
-import { errorResponse } from '../helpers/response-message'
+import { errorResponse, successResponse } from '../helpers/response-message'
 
 export default class LikesController {
   constructor (Model) {
@@ -16,29 +16,21 @@ export default class LikesController {
   }
 
   create (data) {
-    const { postId } = data
+    const { postId, userId } = data
     const _validators = new Validators({
       'postId.required': postId
     })
 
     if (_validators.hasError()) {
       return errorResponse(_validators.errors)
+    }
+
+    const exists = await this.Likes.getOne({ postId, userId })
+    if (Object.keys(exists.data).length !== 0) {
+      return successResponse({ success: 'Informação ja existe na base de dados' }, 202)
     }
 
     return this.Likes.create(data)
-  }
-
-  update (params, data) {
-    const { postId } = data
-    const _validators = new Validators({
-      'postId.required': postId
-    })
-
-    if (_validators.hasError()) {
-      return errorResponse(_validators.errors)
-    }
-
-    return this.Likes.update(params, data)
   }
 
   delete (params) {
