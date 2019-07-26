@@ -34,6 +34,15 @@ export default (app) => {
 
     database.models = loadModels(sequelize)
 
+    Object.keys(database.models).forEach(function(modelName) {
+        const options = database.models[modelName].options
+      if (options.classmethod !== undefined) {
+        if (options.classmethod.hasOwnProperty('associate')){
+          options.classmethod.associate(database.models)
+        }
+      }
+    })
+
     sequelize.sync().done(() => database)
   }
   return database
