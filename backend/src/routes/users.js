@@ -1,34 +1,27 @@
 import UsersController from '../controllers/users'
+import authMiddleware from '../middleware/auth'
 
 export default (app) => {
   const Users = app.datasource.models.Users
   const _usersController = new UsersController(Users)
 
   app.route('/users')
-    .get(async (req, res) => {
-      const result = await _usersController.getAll()
-      return res.status(result.status).json(result.data)
-    })
     .post(async (req, res) => {
       const result = await _usersController.create(req.body)
       return res.status(result.status).json(result.data)
     })
 
 
-  app.route('/users/:id')
+  app.route('/users')
+    .all(authMiddleware)
     .get(async (req, res) => {
-      const { id } = req.params
+      const id = req.userId
       const result = await _usersController.getOne({ id })
       return res.status(result.status).json(result.data)
     })
     .put(async (req, res) => {
-      const { id } = req.params
+      const id = req.userId
       const result = await _usersController.update({ id }, req.body)
       return res.status(result.status).json(result.data)
-    })
-    .delete(async (req, res) => {
-      const { id } = req.params
-      const result = await _usersController.delete({ id })
-      return res.status(result.status).send()
     })
 }
