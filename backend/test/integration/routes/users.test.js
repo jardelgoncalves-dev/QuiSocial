@@ -9,6 +9,8 @@ describe('Routes /users', () => {
     password: 'test'
   }
 
+  let token = jwt.sign(userDefault.id, APP_SECRET)
+
   beforeEach(done => {
     Likes.destroy({ where: {} })
       .then(() => Posts.destroy({ where: {} })
@@ -20,22 +22,10 @@ describe('Routes /users', () => {
   })
 
   describe('Route GET /users', () => {
-    it('should return an user lists', done => {
-      request
-        .get('/users')
-        .end((err, res) => {
-          expect(res.body[0].id).to.be.eql(userDefault.id)
-          expect(res.body[0].name).to.be.eql(userDefault.name)
-          expect(res.body[0].email).to.be.eql(userDefault.email)
-          done(err)
-        })
-    })
-  })
-
-  describe('Route GET /users/:id', () => {
     it('should return an user', done => {
       request
-        .get('/users/1')
+        .get('/users')
+        .set('authorization', `Bearer ${token}`)
         .end((err, res) => {
           expect(res.body.id).to.be.eql(userDefault.id)
           expect(res.body.name).to.be.eql(userDefault.name)
@@ -103,7 +93,7 @@ describe('Routes /users', () => {
     })
   })
 
-  describe('Route PUT /users/:id', () => {
+  describe('Route PUT /users', () => {
     it('should update an user', done => {
       const updateUser = {
         name: 'Update user',
@@ -112,7 +102,8 @@ describe('Routes /users', () => {
       }
 
       request
-        .put('/users/1')
+        .put('/users')
+        .set('authorization', `Bearer ${token}`)
         .send(updateUser)
         .end((err, res) => {
           expect(res.body.id).to.be.eql(userDefault.id)
@@ -120,18 +111,6 @@ describe('Routes /users', () => {
           expect(res.body.email).to.be.eql(userDefault.email)
           expect(res.body.photoName).to.be.eql(updateUser.photoName)
           expect(res.body.bio).to.be.eql(updateUser.bio)
-          done(err)
-        })
-    })
-  })
-
-  describe('Route DELETE /users/:id', () => {
-    it('should delete an user', done => {
-
-      request
-        .delete('/users/1')
-        .end((err, res) => {
-          expect(res.status).to.be.eql(204)
           done(err)
         })
     })
