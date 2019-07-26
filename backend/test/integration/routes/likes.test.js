@@ -48,4 +48,17 @@ describe('Routes /likes', () => {
         })
     })
   })
+
+  describe('Route GET /likes/:id', () => {
+    it('should return a like', done => {
+      request
+        .get('/likes/1')
+        .end((err, res) => {
+          expect(res.body.id).to.be.eql(likeDefault.id)
+          expect(res.body.userId).to.be.eql(userDefault.id)
+          expect(res.body.postId).to.be.eql(postDefault.id)
+          done(err)
+        })
+    })
+  })
 })
