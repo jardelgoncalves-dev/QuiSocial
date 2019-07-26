@@ -18,7 +18,7 @@ describe('Routes /users', () => {
   })
 
   describe('Route GET /users', () => {
-    it('should return a user lists', done => {
+    it('should return an user lists', done => {
       request
         .get('/users')
         .end((err, res) => {
@@ -31,7 +31,7 @@ describe('Routes /users', () => {
   })
 
   describe('Route GET /users/:id', () => {
-    it('should return a user', done => {
+    it('should return an user', done => {
       request
         .get('/users/1')
         .end((err, res) => {
@@ -44,7 +44,7 @@ describe('Routes /users', () => {
   })
 
   describe('Route POST /users', () => {
-    it('should create a user', done => {
+    it('should create an user', done => {
       const novoUser = {
         id: 2,
         name: 'Novo usuario',
@@ -102,7 +102,7 @@ describe('Routes /users', () => {
   })
 
   describe('Route PUT /users/:id', () => {
-    it('should update a user', done => {
+    it('should update an user', done => {
       const updateUser = {
         name: 'Update user',
         photoName: 'updateImage.png',
@@ -124,7 +124,7 @@ describe('Routes /users', () => {
   })
 
   describe('Route DELETE /users/:id', () => {
-    it('should delete a user', done => {
+    it('should delete an user', done => {
 
       request
         .delete('/users/1')
