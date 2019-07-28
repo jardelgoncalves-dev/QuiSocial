@@ -3,8 +3,10 @@ import Validators from '../helpers/validators'
 import { errorResponse, successResponse } from '../helpers/response-message'
 
 export default class LikesController {
-  constructor (Model) {
+  constructor (Model, Posts) {
+    this.Model = Model
     this.Likes = new Base(Model)
+    this.Posts = new Base(Posts)
   }
 
   getAll () {
@@ -34,7 +36,10 @@ export default class LikesController {
       return successResponse({ success: 'Informação ja existe na base de dados' }, 202)
     }
 
-    return this.Likes.create(data)
+    const createdLike = await this.Likes.create(data)
+    const posts = await this.Posts.getAllByParams({ id: createdLike.data.postId }, [{ model: this.Model }])
+
+    return successResponse(posts.data[0], 201)
   }
 
   delete (params) {
