@@ -24,7 +24,7 @@ export default class RepositoryBase {
   async create (data) {
     try {
       const result = await this.Model.create(data)
-      return successResponse(result)
+      return successResponse(result, HttpStatus.CREATED)
     } catch (err) {
       return errorResponse('Ocorreu um erro inesperado ao tentar salvar os dados!', HttpStatus.UNPROCESSABLE_ENTITY)
     }
