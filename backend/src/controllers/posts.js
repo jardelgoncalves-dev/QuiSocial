@@ -1,25 +1,70 @@
+import Sequelize from 'sequelize'
 import Base from '../repository/base/repository-base'
 import Validators from '../helpers/validators'
 import { errorResponse } from '../helpers/response-message'
 
 export default class PostsController {
-  constructor (Model) {
-    this.Posts = new Base(Model)
+  constructor (PostModel, ClapsModel, UsersModel) {
+    this.Posts = new Base(PostModel)
+    this.ClapsModel = ClapsModel
+    this.UsersModel = UsersModel
   }
 
-  getAll (include) {
-    return this.Posts.getAll(include)
+  getAll () {
+    const query = {
+      attributes: {
+        include: [[Sequelize.fn('COUNT', Sequelize.col('Claps.post_id')), 'claps']]
+      },
+      include: [
+        {
+          model: this.ClapsModel, attributes: []
+        },
+        {
+          model: this.UsersModel,
+          attributes: {
+            exclude: ['password']
+          }
+        }
+      ],
+      group: ['Claps.post_id']
+    }
+    return this.Posts.getAll(query)
   }
 
-  getAllByUser (params, include) {
-    return this.Posts.getAllByParams(params, include)
+  getAllByUser (params) {
+    const query = {
+      where: params,
+      attributes: {
+        include: [[Sequelize.fn('COUNT', Sequelize.col('Claps.post_id')), 'claps']]
+      },
+      include: [
+        {
+          model: this.ClapsModel, attributes: []
+        }
+      ],
+      group: ['Claps.post_id']
+    }
+
+    return this.Posts.getAllByParams(query)
   }
 
   getOne (params) {
-    return this.Posts.getOne(params)
+    const query = {
+      where: params,
+      attributes: {
+        include: [[Sequelize.fn('COUNT', Sequelize.col('Claps.post_id')), 'claps']]
+      },
+      include: [
+        {
+          model: this.ClapsModel, attributes: []
+        }
+      ],
+      group: ['Claps.post_id']
+    }
+    return this.Posts.getOne(query)
   }
 
-  create (data) {
+  async create (data) {
     const { content } = data
     const _validator = new Validators({
       'content.required': content
@@ -29,23 +74,25 @@ export default class PostsController {
       return errorResponse(_validator.errors)
     }
 
-    return this.Posts.create(data)
-  }
-
-  update (params, data) {
-    const { content } = data
-    const _validator = new Validators({
-      'content.required': content
-    })
-
-    if (_validator.hasError()) {
-      return errorResponse(_validator.errors)
+    const created = await this.Posts.create(data)
+    const query = {
+      where: { id: created.data.id },
+      attributes: {
+        include: [[Sequelize.fn('COUNT', Sequelize.col('Claps.post_id')), 'claps']]
+      },
+      include: [
+        {
+          model: this.ClapsModel, attributes: []
+        }
+      ],
+      group: ['Claps.post_id']
     }
 
-    return this.Posts.update(params, data)
+    return this.Posts.getOne(query)
+
   }
 
   delete (params) {
-    return this.Posts.delete(params)
+    return this.Posts.delete({ where: params })
   }
 }

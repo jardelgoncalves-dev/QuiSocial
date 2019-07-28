@@ -1,5 +1,5 @@
 export default (sequelize, DataType) => {
-  const Likes = sequelize.define('Likes', {
+  const Claps = sequelize.define('Claps', {
     id: {
       type: DataType.INTEGER,
       primaryKey: true,
@@ -10,11 +10,11 @@ export default (sequelize, DataType) => {
     underscored: true,
     classmethod:{
       associate: function(models){
-        Likes.belongsTo(models.Users, {foreignKey: 'userId', targetKey: 'id'})
-        Likes.belongsTo(models.Posts, {foreignKey: 'postId', targetKey: 'id'})
+        Claps.belongsTo(models.Users, {foreignKey: 'userId', targetKey: 'id'})
+        Claps.belongsTo(models.Posts, {foreignKey: 'postId', targetKey: 'id'})
       }
     }
   })
 
-  return Likes
+  return Claps
 }

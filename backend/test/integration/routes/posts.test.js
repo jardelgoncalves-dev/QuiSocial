@@ -1,7 +1,7 @@
 describe('Routes /posts', () => {
   const Posts = app.datasource.models.Posts
   const Users = app.datasource.models.Users
-  const Likes = app.datasource.models.Likes
+  const Claps = app.datasource.models.Claps
   const userDefault = {
     id: 1,
     name: 'Jardel',
@@ -16,7 +16,7 @@ describe('Routes /posts', () => {
   let token = jwt.sign(userDefault.id, APP_SECRET)
 
   beforeEach(done => {
-    Likes.destroy({ where: {} })
+    Claps.destroy({ where: {} })
       .then(() => Posts.destroy({ where: {} })
         .then(() => Users.destroy({ where: {} })
           .then(() => Users.create(userDefault)
@@ -38,19 +38,8 @@ describe('Routes /posts', () => {
       .end((err, res) => {
         expect(res.body[0].id).to.be.eql(postDefault.id)
         expect(res.body[0].content).to.be.eql(postDefault.content)
-        done(err)
-      })
-    })
-  })
-
-  describe('Route GET /posts/:id', () => {
-    it('should return a post', done => {
-      request
-      .get('/posts/1')
-      .set('authorization', `Bearer ${token}`)
-      .end((err, res) => {
-        expect(res.body.id).to.be.eql(postDefault.id)
-        expect(res.body.content).to.be.eql(postDefault.content)
+        expect(res.body[0].claps).to.be.eql(0)
+        expect(res.body[0]).to.have.a.property('User')
         done(err)
       })
     })
@@ -70,6 +59,7 @@ describe('Routes /posts', () => {
       .end((err, res) => {
         expect(res.body.id).to.be.eql(novoPost.id)
         expect(res.body.content).to.be.eql(novoPost.content)
+        expect(res.body.claps).to.be.eql(0)
         done(err)
       })
     })
@@ -88,25 +78,6 @@ describe('Routes /posts', () => {
       .end((err, res) => {
         expect(res.body.error).to.have.a.property('content')
         expect(res.status).to.be.eql(400)
-        done(err)
-      })
-    })
-  })
-
-  describe('Route PUT /posts/:id', () => {
-    it('should update a post', done => {
-      const updatedPost = {
-        id: postDefault.id,
-        content: 'Post is updated'
-      }
-
-      request
-      .put('/posts/1')
-      .set('authorization', `Bearer ${token}`)
-      .send(updatedPost)
-      .end((err, res) => {
-        expect(res.body.id).to.be.eql(postDefault.id)
-        expect(res.body.content).to.be.eql(updatedPost.content)
         done(err)
       })
     })
@@ -131,7 +102,7 @@ describe('Routes /posts', () => {
       .get('/posts/user/1')
       .set('authorization', `Bearer ${token}`)
       .end((err, res) => {
-        expect(res.body[0]).to.have.a.property('Likes')
+        expect(res.body[0]).to.have.a.property('claps')
         done(err)
       })
     })

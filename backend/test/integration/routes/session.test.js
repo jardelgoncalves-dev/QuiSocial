@@ -1,7 +1,7 @@
 describe('Routes /session', () => {
   const Users = app.datasource.models.Users
   const Posts = app.datasource.models.Posts
-  const Likes = app.datasource.models.Likes
+  const Claps = app.datasource.models.Claps
   const userDefault = {
     name: 'jardel',
     email: 'jardel@example.com',
@@ -9,7 +9,7 @@ describe('Routes /session', () => {
   }
 
   beforeEach(done => {
-    Likes.destroy({ where: {} })
+    Claps.destroy({ where: {} })
       .then(() => Posts.destroy({ where: {} })
         .then(() => Users.destroy({ where: {} })
           .then(() => Users.create(userDefault)

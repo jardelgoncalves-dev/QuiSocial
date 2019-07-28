@@ -20,7 +20,7 @@ export default class SessionController {
       return errorResponse(_validators.errors)
     }
 
-    const res = await this.Users.getOne({ email })
+    const res = await this.Users.getOne({ where: { email } })
     if (Object.keys(res.data).length === 0) {
       return errorResponse({ message: 'User not found!' }, 401)
     }

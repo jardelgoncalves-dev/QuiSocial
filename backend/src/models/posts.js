@@ -18,7 +18,7 @@ export default (sequelize, DataType) => {
     classmethod:{
       associate: function(models){
         Posts.belongsTo(models.Users, {foreignKey: 'userId', targetKey: 'id'})
-        Posts.hasMany(models.Likes, {foreignKey: 'postId'})
+        Posts.hasMany(models.Claps, {foreignKey: 'postId'})
       }
     }
   })

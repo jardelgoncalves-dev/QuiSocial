@@ -2,12 +2,11 @@ import express from 'express'
 import io from 'socket.io'
 import server from 'http'
 import dotenv from 'dotenv'
-
 import datasource from './config/datasource'
 import UsersRoutes from './routes/users'
 import PostsRoutes from './routes/posts'
 import SessionRoutes from './routes/session'
-import LikesRoutes from './routes/likes'
+import ClapsRoutes from './routes/claps'
 
 dotenv.config({
   path: process.env.NODE_ENV !== 'test' ? '.env' : '.env.test'
@@ -40,7 +39,7 @@ class App {
     UsersRoutes(this.express)
     PostsRoutes(this.express)
     SessionRoutes(this.express)
-    LikesRoutes(this.express)
+    ClapsRoutes(this.express)
   }
 }
 

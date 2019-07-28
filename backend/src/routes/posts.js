@@ -3,24 +3,21 @@ import authMiddleware from '../middleware/auth'
 
 export default (app) => {
   const Posts = app.datasource.models.Posts
-  const Likes = app.datasource.models.Likes
+  const Claps = app.datasource.models.Claps
   const Users = app.datasource.models.Users
-  const _postsController = new PostsController(Posts)
+  const _postsController = new PostsController(Posts, Claps, Users)
 
   app.route('/posts')
     .all(authMiddleware)
     .get(async (req, res) => {
-      const result = await _postsController.getAll([
-        { model: Likes }, { model: Users, attributes: { exclude: ['password'] }}
-      ])
+      const result = await _postsController.getAll()
       return res.status(result.status).json(result.data)
     })
     .post(async (req, res) => {
       req.body.userId = req.userId
       const result = await _postsController.create(req.body)
-      
       if (result.status === 201) {
-        req.io.emit('post', result)
+        req.io.emit('post', result.data)
       }
 
       return res.status(result.status).json(result.data)
@@ -28,17 +25,6 @@ export default (app) => {
 
   app.route('/posts/:id')
     .all(authMiddleware)
-    .get(async (req, res) => {
-      const { id } = req.params
-      const result = await _postsController.getOne({ id })
-      return res.status(result.status).json(result.data)
-    })
-    .put(async (req, res) => {
-      const { id } = req.params
-      const { content } = req.body
-      const result = await _postsController.update({ id, userId: req.userId }, { content })
-      return res.status(result.status).json(result.data)
-    })
     .delete(async (req, res) => {
       const { id } = req.params
       const result = await _postsController.delete({ id, userId: req.userId  })
@@ -49,7 +35,7 @@ export default (app) => {
     .all(authMiddleware)
     .get(async (req, res) => {
       const { id } = req.params
-      const result = await _postsController.getAllByUser({ id }, [{ model: Likes }])
+      const result = await _postsController.getAllByUser({ userId: id})
       return res.status(result.status).json(result.data)
     })
 }

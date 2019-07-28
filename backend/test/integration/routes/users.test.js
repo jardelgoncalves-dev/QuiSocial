@@ -1,7 +1,7 @@
 describe('Routes /users', () => {
   const Users = app.datasource.models.Users
   const Posts = app.datasource.models.Posts
-  const Likes = app.datasource.models.Likes
+  const Claps = app.datasource.models.Claps
   const userDefault = {
     id: 1,
     name: 'Fulano de Tal',
@@ -12,7 +12,7 @@ describe('Routes /users', () => {
   let token = jwt.sign(userDefault.id, APP_SECRET)
 
   beforeEach(done => {
-    Likes.destroy({ where: {} })
+    Claps.destroy({ where: {} })
       .then(() => Posts.destroy({ where: {} })
         .then(() => Users.destroy({ where: {} })
           .then(() => Users.create(userDefault)

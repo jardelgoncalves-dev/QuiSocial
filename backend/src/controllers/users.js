@@ -8,11 +8,11 @@ export default class UsersController {
   }
 
   getOne (params) {
-    return this.Users.getOne(params)
+    return this.Users.getOne({ where: params })
   }
 
   getAll () {
-    return this.Users.getAll()
+    return this.Users.getAll({})
   }
 
   async create (data) {
@@ -25,7 +25,7 @@ export default class UsersController {
     })
 
     if(!_validator.hasError()) {
-      const checkEmail = await this.Users.getOne({ email })
+      const checkEmail = await this.Users.getOne({ where: { email } })
       if (Object.keys(checkEmail.data).length !== 0) {
         return errorResponse({ email: 'This email already has a registration' })
       }
@@ -36,12 +36,12 @@ export default class UsersController {
   }
 
   update (params, data) {
-    const result = this.Users.update(params, data)
+    const result = this.Users.update({ where: params }, data)
     return result
   }
 
   delete (params) {
-    const result = this.Users.delete(params)
+    const result = this.Users.delete({ where: params })
     return result
   }
 }
