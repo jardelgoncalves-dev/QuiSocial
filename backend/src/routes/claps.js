@@ -4,7 +4,8 @@ import authMiddleware from '../middleware/auth'
 export default (app) => {
   const Claps = app.datasource.models.Claps
   const Posts = app.datasource.models.Posts
-  const _clapsController = new ClapsController(Claps, Posts)
+  const Users = app.datasource.models.Users
+  const _clapsController = new ClapsController(Claps, Posts, Users)
 
   app.route('/claps')
     .all(authMiddleware)

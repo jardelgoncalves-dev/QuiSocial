@@ -4,8 +4,9 @@ import Validators from '../helpers/validators'
 import { errorResponse, successResponse } from '../helpers/response-message'
 
 export default class ClapsController {
-  constructor (Model, Posts) {
+  constructor (Model, Posts, Users) {
     this.Model = Model
+    this.Users = Users
     this.Claps = new Base(Model)
     this.Posts = new Base(Posts)
   }
@@ -29,6 +30,12 @@ export default class ClapsController {
       include: [
         {
           model: this.Model, attributes: []
+        },
+        {
+          model: this.Users,
+          attributes: {
+            exclude: ['password']
+          }
         }
       ],
       group: ['Claps.post_id']
