@@ -116,8 +116,7 @@ describe('Routes /likes', () => {
               postId: postDefault.id
             })
             .end((err, res) => {
-              expect(res.body.userId).to.be.eql(user.id)
-              expect(res.body.postId).to.be.eql(postDefault.id)
+              expect(res.status).to.be.eql(201)
               done(err)
             })
         })

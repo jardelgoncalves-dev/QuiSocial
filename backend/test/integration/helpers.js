@@ -8,8 +8,9 @@ dotenv.config({
   path: process.env.NODE_ENV !== 'test' ? '.env' : '.env.test'
 })
 
-global.app = app
-global.request = supertest(app)
+global.app = app.express
+global.server = app.server
+global.request = supertest(server)
 global.expect = expect
 global.APP_SECRET = process.env.APP_SECRET
 global.jwt = jwt
