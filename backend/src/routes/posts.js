@@ -18,6 +18,11 @@ export default (app) => {
     .post(async (req, res) => {
       req.body.userId = req.userId
       const result = await _postsController.create(req.body)
+      
+      if (result.status === 201) {
+        req.io.emit('post', result)
+      }
+
       return res.status(result.status).json(result.data)
     })
 

@@ -3,7 +3,8 @@ import authMiddleware from '../middleware/auth'
 
 export default (app) => {
   const Likes = app.datasource.models.Likes
-  const _likesController = new LikesController(Likes)
+  const Posts = app.datasource.models.Posts
+  const _likesController = new LikesController(Likes, Posts)
 
   app.route('/likes')
     .all(authMiddleware)
@@ -14,6 +15,11 @@ export default (app) => {
     .post(async(req, res) => {
       req.body.userId = req.userId
       const result = await _likesController.create(req.body)
+
+      if (result.status === 201) {
+        req.io.emit('like', result)
+      }
+      
       return res.status(result.status).json(result.data)
     })
 
