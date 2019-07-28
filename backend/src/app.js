@@ -1,11 +1,13 @@
 import express from 'express'
+import io from 'socket.io'
+import server from 'http'
+import dotenv from 'dotenv'
 
 import datasource from './config/datasource'
 import UsersRoutes from './routes/users'
 import PostsRoutes from './routes/posts'
 import SessionRoutes from './routes/session'
 import LikesRoutes from './routes/likes'
-import dotenv from 'dotenv'
 
 dotenv.config({
   path: process.env.NODE_ENV !== 'test' ? '.env' : '.env.test'
@@ -14,6 +16,8 @@ dotenv.config({
 class App {
   constructor () {
     this.express = express()
+    this.server = server.Server(this.express)
+    this.io = io(this.server)
 
     this.config()
     this.middlewares()
@@ -21,12 +25,15 @@ class App {
   }
 
   config () {
-    this.express.set('port', 3000)
     this.express.datasource = datasource(this.express)
   }
 
   middlewares () {
     this.express.use(express.json())
+    this.express.use((req, res, next) => {
+      req.io = this.io
+      return next()
+    })
   }
   
   routes () {
@@ -37,4 +44,5 @@ class App {
   }
 }
 
-export default new App().express
+
+export default new App()
