@@ -12,6 +12,9 @@ export default class PostsController {
 
   getAll () {
     const query = {
+      order: [
+        ['createdAt', 'DESC']
+      ],
       attributes: {
         include: [[Sequelize.fn('COUNT', Sequelize.col('Claps.post_id')), 'claps']]
       },
@@ -34,6 +37,9 @@ export default class PostsController {
   getAllByUser (params) {
     const query = {
       where: params,
+      order: [
+        ['createdAt', 'DESC']
+      ],
       attributes: {
         include: [[Sequelize.fn('COUNT', Sequelize.col('Claps.post_id')), 'claps']]
       },
