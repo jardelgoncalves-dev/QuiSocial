@@ -84,6 +84,14 @@ a:hover {
   color: var(--primary)
 }
 
+a.neutral {
+  color: var(--neutral)
+}
+
+a.neutral :hover {
+  color: var(--neutral-2)
+}
+
 .center {
   text-align: center
 }
@@ -104,6 +112,28 @@ a:hover {
   color: var(--danger)
 }
 
+
+/* Alert */
+
+div.alert {
+  padding: 10px 20px;
+  border-radius: 15px;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  font-size: 15px;
+}
+
+div.alert.info {
+  background-color: #67ca88;
+  color: white;
+  font-weight: 400
+}
+
+div.alert.danger {
+  background-color: var(--danger);
+  color: white;
+  font-weight: 400
+}
 
 /* Navbar */
 
