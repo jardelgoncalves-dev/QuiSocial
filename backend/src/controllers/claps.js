@@ -40,6 +40,7 @@ export default class ClapsController {
       ],
       group: ['Claps.post_id']
     }
-    return this.Posts.getOne(query)
+    const post = await this.Posts.getOne(query)
+    return successResponse(post.data, 201)
   }
 }
