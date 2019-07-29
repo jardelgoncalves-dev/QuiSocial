@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
-import { logout, login, storeUser } from '../../services/auth'
+import { logout, login } from '../../services/auth'
+import { AuthConsumer } from '../../AppContext'
 import api from '../../services/api'
 import Navbar from '../../components/NavBar'
 import Container from '../../components/Container'
@@ -32,12 +33,12 @@ class Login extends Component {
     })
   }
 
-  handleLogin = () => {
+  handleLogin = (setUserContext) => {
     const { email, password } = this.state
     api.post('/session', { email, password })
       .then(result => {
-        login(result.data.token)
-        storeUser(result.data.user)
+        login(result.data.token, result.data.user)
+        setUserContext()
         this.props.history.push('/home')
       })
       .catch(err => {
@@ -84,9 +85,14 @@ class Login extends Component {
                     <small className="t-danger">{this.state.error.password[0]}</small> }
                 </FormGroup>
               </Form>
-                <div className="center">
-                  <button onClick={this.handleLogin} className="btn">Logar</button>
-                </div>
+                <AuthConsumer>
+                  {({ setUserContext }) => (
+                    <div className="center">
+                      <button onClick={this.handleLogin.bind(this, setUserContext)} className="btn">Logar</button>
+                    </div>
+                  )}
+
+                </AuthConsumer>
             </Col>
           </Row>
         </Container>
