@@ -4,16 +4,18 @@ import { isAuthenticated, logout, getUser } from './services/auth'
 const AuthContext = React.createContext()
 
 class AuthProvider extends Component {
+  state = { user: getUser() }
   constructor () {
     super()
     this.isAuthenticated = this.isAuthenticated.bind(this)
     this.logout = this.logout.bind(this)
-    this.getUserAuth = this.getUserAuth.bind(this)
   }
 
   isAuthenticated = () => isAuthenticated()
-  logout = () => logout()
-  getUserAuth = () => getUser()
+
+  logout = () => { 
+    logout()
+  }
 
   render () {
     return (
@@ -21,7 +23,7 @@ class AuthProvider extends Component {
         value={{
           isAuthenticated: this.isAuthenticated,
           logout: this.logout,
-          getUserAuth: this.getUserAuth
+          user: this.state.user
         }}
       >
         {this.props.children}
