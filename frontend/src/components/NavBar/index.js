@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { AuthConsumer } from '../../AppContext'
 import logo from '../../assets/images/logo.svg'
+import { logout } from '../../services/auth';
 
 export default () => (
   <AuthConsumer>
@@ -26,7 +27,7 @@ export default () => (
         { isAuthenticated() ?(
           <div className="navbar-links">
             <Link to="/home">Home</Link>
-            <Link to="/">Log out</Link>
+            <Link onClick={logout} to="/">Log out</Link>
           </div>
         ) : (
           <div className="navbar-links">
