@@ -1,27 +1,43 @@
 import React, { Component } from 'react'
-import { isAuthenticated, logout, getUser } from './services/auth'
+import { isAuthenticated, logout, getUser, login } from './services/auth'
+import api from './services/api'
 
 const AuthContext = React.createContext()
 
 class AuthProvider extends Component {
-  state = { user: null }
 
   constructor () {
     super()
-    this.isAuthenticated = this.isAuthenticated.bind(this)
-    this.logout = this.logout.bind(this)
-    this.setUserContext = this.setUserContext.bind(this)
+    this.state = {
+      user: getUser()
+    }
   }
 
   isAuthenticated = () => isAuthenticated()
 
-  logout = () => { 
-    logout()
+  signUp = (credentials) => {
+    const { email, password } = credentials
+    return api.post('/session', { email, password })
+      .then(result => {
+        login(result.data.token, result.data.user)
+        this.setState({ user: getUser() })
+        return result
+      })
+      .catch(err => err)
   }
 
-  setUserContext = () => {
-    const user = getUser()
-    this.setState({ user })
+  signIn = (userinfo) => {
+    const { name, email, password } = userinfo
+    return api.post('/users', { name, email, password })
+      .then(resul => resul)
+      .catch(err => err)
+  }
+
+  logout = () => { 
+    logout()
+    this.setState({
+      user: {}
+    })
   }
 
   render () {
@@ -30,8 +46,9 @@ class AuthProvider extends Component {
         value={{
           isAuthenticated: this.isAuthenticated,
           logout: this.logout,
-          user: this.state.user,
-          setUserContext: this.setUserContext
+          signUp: this.signUp,
+          signIn: this.signIn,
+          ...this.state
         }}
       >
         {this.props.children}
@@ -40,6 +57,25 @@ class AuthProvider extends Component {
   }
 }
 
+const withContext = Component => {
+  return props => {
+      return (
+          <AuthContext.Consumer>
+              {
+                  globalState => {
+                      return (
+                          <Component
+                              {...globalState}
+                              {...props}
+                          />
+                      )
+                  }
+              }
+          </AuthContext.Consumer>
+      )
+  }
+}
+
 const AuthConsumer = AuthContext.Consumer
 
-export { AuthProvider, AuthConsumer }
+export { AuthProvider, AuthConsumer, withContext }

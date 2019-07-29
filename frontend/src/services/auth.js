@@ -18,4 +18,4 @@ export const logout = () => {
   localStorage.removeItem(USER_AUTH)
 }
 
-export const getUser = () =>  JSON.parse(localStorage.getItem(USER_AUTH))
+export const getUser = () =>  JSON.parse(localStorage.getItem(USER_AUTH)) || {}

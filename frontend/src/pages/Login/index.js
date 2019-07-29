@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
-import { logout, login } from '../../services/auth'
-import { AuthConsumer } from '../../AppContext'
-import api from '../../services/api'
+// import { withRouter } from 'react-router-dom'
+import { withContext } from '../../AppContext'
 import Navbar from '../../components/NavBar'
 import Container from '../../components/Container'
 import Row from '../../components/Row'
@@ -20,7 +18,7 @@ class Login extends Component {
   }
 
   componentDidMount() {
-    logout()
+    this.props.logout()
   }
 
 
@@ -33,17 +31,16 @@ class Login extends Component {
     })
   }
 
-  handleLogin = (setUserContext) => {
-    const { email, password } = this.state
-    api.post('/session', { email, password })
+  handleLogin = () => {
+    this.props.signUp(this.state)
       .then(result => {
-        login(result.data.token, result.data.user)
-        setUserContext()
+        if (result.response) {
+          this.setState({error: result.response.data.error})
+          return
+        } 
         this.props.history.push('/home')
       })
-      .catch(err => {
-        this.setState({ error: err.response.data.error })
-      })
+    
   }
 
   render () {
@@ -85,14 +82,9 @@ class Login extends Component {
                     <small className="t-danger">{this.state.error.password[0]}</small> }
                 </FormGroup>
               </Form>
-                <AuthConsumer>
-                  {({ setUserContext }) => (
-                    <div className="center">
-                      <button onClick={this.handleLogin.bind(this, setUserContext)} className="btn">Logar</button>
-                    </div>
-                  )}
-
-                </AuthConsumer>
+              <div className="center">
+                <button onClick={this.handleLogin} className="btn">Logar</button>
+              </div>
             </Col>
           </Row>
         </Container>
@@ -101,4 +93,4 @@ class Login extends Component {
   }
 }
 
-export default withRouter(Login)
+export default withContext(Login)

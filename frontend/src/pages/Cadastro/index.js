@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { withRouter, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import { withContext } from '../../AppContext'
 import Navbar from '../../components/NavBar'
 import Container from '../../components/Container'
 import Row from '../../components/Row'
@@ -8,7 +9,6 @@ import Form from '../../components/Form'
 import FormGroup from '../../components/FormGroup'
 import ilustrationCadastro from '../../assets/images/ilustracao_cadastro.svg'
 import { logout } from '../../services/auth'
-import api from '../../services/api'
 
 class Cadastro extends Component {
 
@@ -34,13 +34,13 @@ class Cadastro extends Component {
   }
 
   handleCadastro = () => {
-    const { name, email, password } = this.state
-    api.post('/users', { name, email, password })
-      .then(() => {
-        this.setState({ success: true, error: '' })
-      })
-      .catch(err => {
-        this.setState({ success: false, error: err.response.data.error })
+    this.props.signIn(this.state)
+      .then(result => {
+        if (result.response) {
+          this.setState({error: result.response.data.error, success: false})
+          return
+        }
+        this.setState({error: false, success: true})
       })
   }
 
@@ -107,4 +107,4 @@ class Cadastro extends Component {
   }
 }
 
-export default withRouter(Cadastro)
+export default withContext(Cadastro)

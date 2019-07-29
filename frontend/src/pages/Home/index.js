@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
-import { withRouter, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
+import { withContext } from '../../AppContext'
 import NavBar from '../../components/NavBar'
 import UserCard from '../../components/Card/UserInfo'
+import CardMenu from '../../components/Card/CardMenu'
 import Container from '../../components/Container'
 import Row from '../../components/Row'
 import Col from '../../components/Col'
@@ -17,17 +19,15 @@ class Home extends Component {
             <Col className='md-4 lg-3'>
               <Row>
                 <Col className='col-12 md-12 lg-12'>
-                  <UserCard />
+                  <UserCard user={this.props.user}/>
                 </Col>
                 <Col className="col-12 sm-6 md-12 lg-12">
-                  <div className="card">
-                    <div className="menu-options">
-                      <ul>
-                        <li><Link href="/perfil"><i className="far fa-user"></i>Meu perfil</Link></li>
-                        <li><Link href="/editar"><i className="fas fa-pen"></i>Editar perfil</Link></li>
-                      </ul>
-                    </div>
-                  </div>
+                  <CardMenu
+                    links={[
+                      <Link href="/perfil"><i className="far fa-user"></i>Meu perfil</Link>,
+                      <Link href="/editar"><i className="fas fa-pen"></i>Editar perfil</Link>
+                    ]}
+                  />
                 </Col>
               </Row>
             </Col>
@@ -38,4 +38,4 @@ class Home extends Component {
   } 
 }
 
-export default withRouter(Home)
+export default withContext(Home)
