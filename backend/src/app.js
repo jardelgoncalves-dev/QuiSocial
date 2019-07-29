@@ -2,6 +2,7 @@ import express from 'express'
 import io from 'socket.io'
 import server from 'http'
 import dotenv from 'dotenv'
+import cors from 'cors'
 import datasource from './config/datasource'
 import UsersRoutes from './routes/users'
 import PostsRoutes from './routes/posts'
@@ -29,6 +30,7 @@ class App {
 
   middlewares () {
     this.express.use(express.json())
+    this.express.use(cors())
     this.express.use((req, res, next) => {
       req.io = this.io
       return next()
