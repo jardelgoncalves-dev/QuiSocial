@@ -1,5 +1,5 @@
 import app from './src/app'
 
-app.server.listen(3000, () => {
-  console.log('API is running on port 3000')
+app.server.listen(3003, () => {
+  console.log('API is running on port 3003')
 })
