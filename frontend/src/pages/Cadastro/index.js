@@ -33,8 +33,7 @@ class Cadastro extends Component {
     })
   }
 
-  onSubmitForm = e => {
-    e.preventDefault()
+  handleCadastro = () => {
     const { name, email, password } = this.state
     api.post('/users', { name, email, password })
       .then(() => {
@@ -66,7 +65,7 @@ class Cadastro extends Component {
               <Form>
                 <FormGroup label='Nome'>
                   <input type="text"
-                    name='name'
+                    name="name"
                     value={this.state.name}
                     placeholder="Informe seu nome"
                     onChange={this.handleInputChange}
@@ -77,7 +76,7 @@ class Cadastro extends Component {
                 <FormGroup label='Email'>
                   <input
                     type="email"
-                    name='email'
+                    name="email"
                     value={this.state.email}
                     placeholder="Informe um email válido"
                     onChange={this.handleInputChange}
@@ -88,7 +87,7 @@ class Cadastro extends Component {
                 <FormGroup label='Password'>
                   <input
                     type="password"
-                    name='password'
+                    name="password"
                     value={this.state.password}
                     placeholder="Informe uma senha"
                     onChange={this.handleInputChange}
@@ -98,7 +97,7 @@ class Cadastro extends Component {
                 </FormGroup>
               </Form>
                 <div className="center">
-                  <button onClick={this.onSubmitForm} className="btn">Cadastrar</button>
+                  <button onClick={this.handleCadastro} className="btn">Cadastrar</button>
                 </div>
             </Col>
           </Row>
