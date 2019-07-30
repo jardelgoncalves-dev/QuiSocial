@@ -1,7 +1,7 @@
 import Sequelize from 'sequelize'
 import Base from '../repository/base/repository-base'
 import Validators from '../helpers/validators'
-import { errorResponse } from '../helpers/response-message'
+import { errorResponse, successResponse } from '../helpers/response-message'
 
 export default class PostsController {
   constructor (PostModel, ClapsModel, UsersModel) {
@@ -89,12 +89,19 @@ export default class PostsController {
       include: [
         {
           model: this.ClapsModel, attributes: []
+        },
+        {
+          model: this.UsersModel,
+          attributes: {
+            exclude: ['password']
+          }
         }
       ],
       group: ['Claps.id']
     }
 
-    return this.Posts.getOne(query)
+    const post = await this.Posts.getOne(query)
+    return successResponse(post.data, 201)
 
   }
 
