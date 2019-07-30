@@ -3,11 +3,11 @@ import Applause from '../../Icons/Applause'
 import More from '../../Icons/More'
 import DeleteOutline from '../../Icons/DeleteOutline'
 
-export default ({ image, username, dataPub, content, claps, onClickDelete, onClickClaps, userId, authId }) => (
+export default ({ avatar, username, dataPub, content, claps, onClickDelete, onClickClaps, userId, authId }) => (
   <div className="card" style={{marginTop: '32px'}}>
     <div className="header">
       <div className="header-avatar">
-        <img className="avatar" src={image} alt={username}/>
+        <img className="avatar" src={avatar} alt={username}/>
       </div>
       <div className="header-info">
         <h3 className="username">{username}</h3>

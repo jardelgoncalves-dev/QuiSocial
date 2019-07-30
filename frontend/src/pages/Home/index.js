@@ -123,7 +123,7 @@ class Home extends Component {
               { this.state.posts.map(post => (
                 <CardPub key={post.createdAt}
                   username={post.User.name}
-                  image={post.User.photoName}
+                  avatar={post.User.photoName}
                   dataPub={moment(post.createdAt).format("dddd, MMM DD at HH:mm a")}
                   content={post.content}
                   claps={post.claps}
