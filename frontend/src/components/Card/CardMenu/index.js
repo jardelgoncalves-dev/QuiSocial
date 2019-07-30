@@ -4,8 +4,8 @@ export default ({ links }) => (
   <div className="card">
     <div className="menu-options">
       <ul>
-        { links.map(link => (
-          <li>{link}</li>
+        { links.map((link, index) => (
+          <li key={index}>{link}</li>
         )) }
       </ul>
     </div>
