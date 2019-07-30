@@ -48,7 +48,7 @@ export default class PostsController {
           model: this.ClapsModel, attributes: []
         }
       ],
-      group: ['Claps.id']
+      group: ['Posts.id']
     }
 
     return this.Posts.getAllByParams(query)
@@ -65,7 +65,7 @@ export default class PostsController {
           model: this.ClapsModel, attributes: []
         }
       ],
-      group: ['Claps.id']
+      group: ['Posts.id']
     }
     return this.Posts.getOne(query)
   }
@@ -97,7 +97,7 @@ export default class PostsController {
           }
         }
       ],
-      group: ['Claps.id']
+      group: ['Posts.id']
     }
 
     const post = await this.Posts.getOne(query)
