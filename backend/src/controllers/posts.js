@@ -29,7 +29,7 @@ export default class PostsController {
           }
         }
       ],
-      group: ['Claps.post_id']
+      group: ['Posts.id']
     }
     return this.Posts.getAll(query)
   }
@@ -48,7 +48,7 @@ export default class PostsController {
           model: this.ClapsModel, attributes: []
         }
       ],
-      group: ['Claps.post_id']
+      group: ['Claps.id']
     }
 
     return this.Posts.getAllByParams(query)
@@ -65,7 +65,7 @@ export default class PostsController {
           model: this.ClapsModel, attributes: []
         }
       ],
-      group: ['Claps.post_id']
+      group: ['Claps.id']
     }
     return this.Posts.getOne(query)
   }
@@ -91,7 +91,7 @@ export default class PostsController {
           model: this.ClapsModel, attributes: []
         }
       ],
-      group: ['Claps.post_id']
+      group: ['Claps.id']
     }
 
     return this.Posts.getOne(query)

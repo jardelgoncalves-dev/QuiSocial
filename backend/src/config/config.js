@@ -5,13 +5,13 @@ dotenv.config({
 })
 
 export default {
-  database: process.env.DB_NAME,
-  username: process.env.DB_USER,
-  password: process.env.DB_PASS,
+  database: '',
+  username: '',
+  password: '',
   params: {
-    storage: 'db_test.sqlite',
+    storage: process.env.DB_STORAGE,
     host: process.env.DB_HOST,
-    dialect: process.env.DB_DIALECT || 'postgres',
+    dialect: process.env.DB_DIALECT,
     logging: false,
     define: {
       underscored: true
