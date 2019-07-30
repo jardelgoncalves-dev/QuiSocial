@@ -40,7 +40,7 @@ export default (sequelize, DataType) => {
       beforeCreate: user => {
         const salt = bcrypt.genSaltSync()
         user.password = bcrypt.hashSync(user.password, salt)
-        user.photoName = 'user.svg'
+        user.photoName = '/uploads/user.svg'
       }
     }
   })
