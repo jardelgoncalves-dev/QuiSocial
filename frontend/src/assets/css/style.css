@@ -420,9 +420,9 @@ button.transparent:hover {
   padding-top: 8px
 }
 
-.dropdown-content button i {
-  padding-right: 6px;
-  color: var(--primary)
+.dropdown-content button svg {
+  margin-right: 6px;
+  fill: var(--primary)
 }
 /* Card */
 
@@ -532,9 +532,10 @@ hr.divider {
   color: var(--neutral)
 }
 
-.menu-options a i {
-  padding-right: 16px;
-  color: var(--primary)
+.menu-options a svg {
+  margin-right: 20px;
+  padding-bottom: -10px;
+  fill: var(--primary)
 }
 
 .menu-options ul {
