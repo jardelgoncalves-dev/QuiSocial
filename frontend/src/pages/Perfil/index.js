@@ -11,7 +11,6 @@ import CardMenu from '../../components/Card/CardMenu'
 import Container from '../../components/Container'
 import Row from '../../components/Row'
 import Col from '../../components/Col'
-import TextareaPub from '../../components/TextareaPub'
 import CardPub from '../../components/Card/CardPub'
 import Pen from '../../components/Icons/Pen'
 import Person from '../../components/Icons/Person'
@@ -19,7 +18,6 @@ import Person from '../../components/Icons/Person'
 class Home extends Component {
 
   state = {
-    contentPost: '',
     posts: []
   }
 
@@ -42,28 +40,8 @@ class Home extends Component {
     })
   }
 
-  handleInputChange = event => {
-    const target = event.target
-    const value = target.type === 'checkbox' ? target.checked : target.value
-    const name = target.name
-    this.setState({
-      [name]: value
-    })
-  }
-
-  savePost = () => {
-    const { contentPost } = this.state
-    if (contentPost) {
-      api.post('/posts', { content: contentPost })
-        .catch(err => {
-          console.log('Err', err.message)
-        })
-      this.setState({ contentPost: '' })
-    }
-  }
-
   getPosts = () => {
-    api.get('/posts')
+    api.get('/posts/user/'+this.props.user.id)
       .then(result => {
         this.setState({ posts: result.data })
       })
@@ -81,7 +59,7 @@ class Home extends Component {
 
   deletePost = (id) => {
     api.delete('/posts/'+id)
-      .then(resul => {
+      .then(result => {
         this.getPosts()
       })
       .catch(err => {
@@ -111,22 +89,15 @@ class Home extends Component {
               </Row>
             </Col>
             <Col className="col-12 sm-12 md-8 lg-7">
-              <TextareaPub
-                name='contentPost'
-                value={this.state.contentPost}
-                onChange={this.handleInputChange}
-                placeholder='Escreva aqui o que você está pensando...'
-                onClick={this.savePost}
 
-              />
               { this.state.posts.map(post => (
                 <CardPub key={post.createdAt}
-                  username={post.User.name}
-                  avatar={post.User.photoName}
+                  username={this.props.user.name}
+                  avatar={this.props.user.photoName}
                   dataPub={moment(post.createdAt).format("dddd, MMM DD at HH:mm a")}
                   content={post.content}
                   claps={post.claps}
-                  userId={post.User.id}
+                  userId={this.props.user.id}
                   authId={this.props.user.id}
                   onClickClaps={this.sendClaps.bind(this, post.id)}
                   onClickDelete={this.deletePost.bind(this, post.id)}

@@ -7,6 +7,7 @@ import ProtectedRouter from './ProtectedRoute'
 import Login from './pages/Login'
 import Cadastro from './pages/Cadastro'
 import Home from './pages/Home'
+import Perfil from './pages/Perfil'
 
 const Routes = () => (
   <BrowserRouter>
@@ -15,6 +16,7 @@ const Routes = () => (
         <Route exact path='/' component={Login} />
         <Route exact path='/cadastro' component={Cadastro} />
         <ProtectedRouter exact path='/home' component={Home} />
+        <ProtectedRouter exact path='/perfil' component={Perfil} />
       </Switch>
     </AuthProvider>
   </BrowserRouter>
