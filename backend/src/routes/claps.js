@@ -14,7 +14,7 @@ export default (app) => {
       const result = await _clapsController.create(req.body)
 
       if (result.status === 201) {
-        req.io.emit('claps', result.data)
+        req.io.emit('clap', result.data)
       }
       
       return res.status(result.status).json(result.data)
