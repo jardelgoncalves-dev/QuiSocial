@@ -3,7 +3,7 @@ import Applause from '../../Icons/Applause'
 import More from '../../Icons/More'
 import DeleteOutline from '../../Icons/DeleteOutline'
 
-export default ({ image, username, dataPub, content, claps, onChangeDelete, onChangeClaps, userId, authId }) => (
+export default ({ image, username, dataPub, content, claps, onClickDelete, onClickClaps, userId, authId }) => (
   <div className="card" style={{marginTop: '32px'}}>
     <div className="header">
       <div className="header-avatar">
@@ -20,7 +20,7 @@ export default ({ image, username, dataPub, content, claps, onChangeDelete, onCh
             <div className="dropdown-content">
               <ul>
                 <li>
-                  <button onChange={onChangeDelete} className="transparent">
+                  <button onClick={onClickDelete} className="transparent">
                     <DeleteOutline width='14' height='14' />Remover publicação
                   </button>
                 </li>
@@ -36,7 +36,7 @@ export default ({ image, username, dataPub, content, claps, onChangeDelete, onCh
     </div>
     <div className="footer">
       <span className="t-primary">
-        <button onChange={onChangeClaps} className="transparent t-primary"><Applause /></button>
+        <button onClick={onClickClaps} className="transparent t-primary"><Applause /></button>
         {claps}
       </span>
     </div>
