@@ -94,7 +94,7 @@ class Home extends Component {
       <div>
         <NavBar />
         <Container>
-          <Row>
+          <Row style={{marginBottom: '50px'}}>
             <Col className='md-4 lg-3'>
               <Row>
                 <Col className='col-12 md-12 lg-12'>

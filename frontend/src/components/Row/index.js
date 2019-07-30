@@ -1,7 +1,7 @@
 import React from 'react'
 
-export default ({ children }) => (
-  <div className="row">
+export default ({ children, style }) => (
+  <div className="row" style={style}>
     {children}
   </div>
 )
