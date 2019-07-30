@@ -8,6 +8,7 @@ import Login from './pages/Login'
 import Cadastro from './pages/Cadastro'
 import Home from './pages/Home'
 import Perfil from './pages/Perfil'
+import EditarPerfil from './pages/EditarPerfil'
 
 const Routes = () => (
   <BrowserRouter>
@@ -17,6 +18,7 @@ const Routes = () => (
         <Route exact path='/cadastro' component={Cadastro} />
         <ProtectedRouter exact path='/home' component={Home} />
         <ProtectedRouter exact path='/perfil' component={Perfil} />
+        <ProtectedRouter exact path='/editar' component={EditarPerfil} />
       </Switch>
     </AuthProvider>
   </BrowserRouter>
