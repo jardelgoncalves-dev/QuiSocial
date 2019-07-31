@@ -1,5 +1,7 @@
 import UsersController from '../controllers/users'
 import authMiddleware from '../middleware/auth'
+import shortHash from 'short-hash'
+import path from 'path'
 
 export default (app) => {
   const Users = app.datasource.models.Users
@@ -20,6 +22,16 @@ export default (app) => {
       return res.status(result.status).json(result.data)
     })
     .put(async (req, res) => {
+     if(req.files) {
+       const file = req.files.photo
+       const now = new Date()
+       const filepath = shortHash(now + file.name) + '.png'
+       const photoName = 'http://localhost:3003/public/files/' + filepath
+       file.mv(path.join(__dirname, '..', '..', 'public', 'files', filepath))
+
+       delete req.body.photo
+       req.body.photoName = photoName
+     }
       const id = req.userId
       const result = await _usersController.update({ id }, req.body)
       return res.status(result.status).json(result.data)
