@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { isAuthenticated, logout, getUser, login } from './services/auth'
+import { isAuthenticated, logout, getUser, login, userStore } from './services/auth'
 import api from './services/api'
 
 const AuthContext = React.createContext()
@@ -19,7 +19,8 @@ class AuthProvider extends Component {
     const { email, password } = credentials
     return api.post('/session', { email, password })
       .then(result => {
-        login(result.data.token, result.data.user)
+        login(result.data.token)
+        userStore(result.data.user)
         this.setState({ user: getUser() })
         return result
       })
@@ -40,6 +41,18 @@ class AuthProvider extends Component {
     })
   }
 
+  updateUser = (data) => {
+    return api.put('/users', data)
+      .then(result => {
+        if (result.status === 200) {
+          userStore(result.data)
+          this.setState({ user: getUser() })
+        }
+        return result
+      })
+      .catch(err => err)
+  }
+
   render () {
     return (
       <AuthContext.Provider
@@ -48,6 +61,7 @@ class AuthProvider extends Component {
           logout: this.logout,
           signUp: this.signUp,
           signIn: this.signIn,
+          updateUser: this.updateUser,
           ...this.state
         }}
       >
