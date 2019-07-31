@@ -3,6 +3,8 @@ import io from 'socket.io'
 import server from 'http'
 import dotenv from 'dotenv'
 import cors from 'cors'
+import path from 'path'
+import upload from 'express-fileupload'
 import datasource from './config/datasource'
 import UsersRoutes from './routes/users'
 import PostsRoutes from './routes/posts'
@@ -31,6 +33,7 @@ class App {
   middlewares () {
     this.express.use(express.json())
     this.express.use(cors())
+    this.express.use(upload())
     this.express.use((req, res, next) => {
       req.io = this.io
       return next()
@@ -42,6 +45,7 @@ class App {
     PostsRoutes(this.express)
     SessionRoutes(this.express)
     ClapsRoutes(this.express)
+    this.express.use('/public/files', express.static(path.join(__dirname, '../public/files')));
   }
 }
 
