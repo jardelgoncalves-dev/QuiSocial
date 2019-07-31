@@ -5,6 +5,10 @@ export const getToken = () => localStorage.getItem(TOKEN_KEY)
 
 export const login = (token, user) => {
   localStorage.setItem(TOKEN_KEY, token)
+  
+}
+
+export const userStore = user => {
   localStorage.setItem(USER_AUTH, JSON.stringify({
     id: user.id,
     name: user.name,
@@ -13,6 +17,7 @@ export const login = (token, user) => {
     photoName: user.photoName
   }))
 }
+
 export const logout = () => {
   localStorage.removeItem(TOKEN_KEY)
   localStorage.removeItem(USER_AUTH)
